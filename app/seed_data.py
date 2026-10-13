@@ -1,6 +1,6 @@
 import csv
 
-from database import get_connection
+from app.database import get_connection
 
 
 CSV_PATH = "data/products.csv"

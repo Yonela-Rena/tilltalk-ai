@@ -111,3 +111,35 @@ def test_missing_size_requests_clarification():
         "200ml",
         "400ml"
     ]
+
+def test_reordered_product_name():
+    result = resolve_product(
+        product_name="Purity apple",
+        size="200ml",
+        store_id=1
+    )
+
+    assert result["status"] == "success"
+    assert result["product"]["product_id"] == "1002"
+
+
+def test_wrong_brand_does_not_match():
+    result = resolve_product(
+        product_name="Apple Purity",
+        brand="Wrong Brand",
+        size="200ml",
+        store_id=1
+    )
+
+    assert result["status"] == "not_found"
+
+
+def test_short_bread_name_is_ambiguous():
+    result = resolve_product(
+        product_name="bread",
+        store_id=1
+    )
+
+    assert result["status"] == "ambiguous"
+    assert len(result["matches"]) == 2
+    
